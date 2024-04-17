@@ -1,5 +1,6 @@
 package tn.enicarthage.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,18 +66,32 @@ public class UserController {
 	 }
 	 @PutMapping("/users/{id}")
 	 public ResponseEntity<User> updateUser(@PathVariable("id") Long id , @RequestBody User user){
-		user = userService.updateUser(id,user);
-		return ResponseEntity.ok(user);
-		 
+		 try {
+		        // Récupérer l'utilisateur existant par son ID
+		        User existingUser = userService.getUserById(id);
+		        
+		        // Mettre à jour les champs de l'utilisateur existant avec les nouvelles valeurs
+		        existingUser.setFirstName(user.getFirstName());
+		        existingUser.setLastName(user.getLastName());
+		        existingUser.setEmailId(user.getEmailId());
+		        existingUser.setDepartement(user.getDepartement()); // Mettre à jour le département
+		        
+		        // Mettre à jour l'utilisateur dans la base de données en utilisant le service
+		        User updatedUser = userService.updateUser(id, existingUser);
+		        
+		        // Répondre avec l'utilisateur mis à jour
+		        return ResponseEntity.ok(updatedUser);
+		    } catch (Exception e) {
+		        // En cas d'erreur, renvoyer une réponse d'erreur avec le statut approprié et un corps contenant le message d'erreur
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		    }
 	
 	 }
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+	 @GetMapping("/departments")
+	 public ResponseEntity<List<String>> getDepartments() {
+	     List<String> departments = Arrays.asList("génie informatique", "génie indus", "infotronique", "mécatronique");
+	     return ResponseEntity.ok(departments);
+	 }
+
 	 
 }

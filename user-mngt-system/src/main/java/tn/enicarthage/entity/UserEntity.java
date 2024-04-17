@@ -17,6 +17,7 @@ public class UserEntity {
    private String firstName;
    private String lastName;
    private String emailId;
+   private String departement;
    
    
    

@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
     	                user.setFirstName(userEntity.getFirstName());
     	                user.setLastName(userEntity.getLastName());
     	                user.setEmailId(userEntity.getEmailId());
+    	                user.setDepartement(userEntity.getDepartement());
     	                return user;
     	            })
     	            .collect(Collectors.toList());
@@ -61,6 +62,7 @@ public class UserServiceImpl implements UserService {
 		userEntity.setEmailId(user.getEmailId());
 		userEntity.setFirstName(user.getFirstName());
 		userEntity.setLastName(user.getLastName());
+		userEntity.setDepartement(user.getDepartement());
 		
 		
 		userRepository.save(userEntity);
